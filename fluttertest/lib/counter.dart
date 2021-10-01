@@ -1,83 +1,87 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Counter extends StatefulWidget {
-  @override
-  _CounterState createState() => _CounterState();
-}
 
-class _CounterState extends State<Counter> {
-
-  int counter = 0;
-  late SharedPreferences preferences;
-  String KEY = "counter";
-
-  @override
-  void initState() {
-    super.initState();
-    initPreferences();
-  }
-
-  void initPreferences() async{
-    preferences = await SharedPreferences.getInstance();
-    counter = preferences.getInt(KEY) ?? 0;
-    setState(() { });
-  }
+class Counter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 30
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 50,
+    return Container(
+      margin:  const EdgeInsets.only(
+          top: 5
+      ),
+      padding: const EdgeInsets.symmetric(
+          vertical: 20,
           horizontal: 10
-        ),
-        color: Colors.green,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // ignore: prefer_const_constructors
-            RawMaterialButton(
-              onPressed: increment,
-              elevation: 2.0,
-              fillColor: Colors.white,
-              child: const Icon(
-                Icons.plus_one,
-                size: 35.0,
-              ),
-              padding: const EdgeInsets.all(15.0),
-              shape: const CircleBorder(),
+      ),
+      color: Colors.green,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // ignore: prefer_const_constructors
+          RawMaterialButton(
+            onPressed: (){
+              var model = context.read<CounterModel>();
+              model.increment();
+            },
+            elevation: 2.0,
+            fillColor: Colors.white,
+            child: const Icon(
+              Icons.plus_one,
+              size: 28.0,
             ),
-            Text(
-              counter.toString(),
-              style: const TextStyle(
-                fontSize: 35
-              ),
-            ),
-          ],
-        ),
+            padding: const EdgeInsets.all(15.0),
+            shape: const CircleBorder(),
+          ),
+          Consumer<CounterModel>(
+              builder: (context, model, child) {
+                print(model.value.toString() + ' dd');
+                return Text(
+                  model.value.toString(),
+                  style: const TextStyle(
+                      fontSize: 28
+                  ),
+                );
+
+              }
+          ),
+        ],
       ),
     );
-  }
 
-  void increment(){
-    counter++;
-    setState(() {});
-    preferences.setInt(KEY, counter);
-    Fluttertoast.showToast(
-        msg: "Counter value is " + counter.toString(),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
   }
 
 }
+
+class CounterModel with ChangeNotifier{
+
+  late BuildContext context;
+  late SharedPreferences preferences;
+  String KEY = "counter";
+  int value = 0;
+
+  CounterModel(this.context){
+    getValueFromPrefs();
+  }
+
+  void increment(){
+    value++;
+    preferences.setInt(KEY, value);
+    notifyListeners();
+  }
+
+  void updateValue(int newValue){
+    value = newValue;
+    notifyListeners();
+  }
+
+  void getValueFromPrefs() async{
+    preferences = await SharedPreferences.getInstance();
+    updateValue(preferences.getInt(KEY) ?? 0);
+    print(value);
+  }
+
+}
+
