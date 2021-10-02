@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:meeting_app/model/add_event_model.dart';
 import 'package:meeting_app/screens/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:here_sdk/core.dart';
 
+import 'package:here_sdk/mapview.dart';
 import 'model/event_model.dart';
 
 void main() {
+
+  SdkContext.init(IsolateOrigin.main);
   runApp(MeetingApp());
 }
 
@@ -34,6 +38,8 @@ class _MeetingAppState extends State<MeetingApp> {
       ),
     );
   }
+
+
 }
 
 

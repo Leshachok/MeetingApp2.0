@@ -41,5 +41,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>AccessKeyId</key>
+    <string>gMIfp_MZIcS0KjbaobbVqQ</string>
+    <key>AccessKeySecret</key>
+    <string>q40RhVpHhPy69ASt2cK14aDGaHIk8S6HjCWQOl2J7gt_SIli3veeXiu8IXvshEukQQfpYeBOe2OP07DuGwT-qw</string>
 </dict>
 </plist>

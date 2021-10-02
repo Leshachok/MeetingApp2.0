@@ -1,13 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meeting_app/model/add_event_model.dart';
 import 'package:meeting_app/model/event.dart';
 import 'package:meeting_app/model/event_model.dart';
 import 'package:meeting_app/screens/map_dialog.dart';
 import 'package:provider/provider.dart';
 
-import 'google_map_choose_place_screen.dart';
 
 class EventAddScreen extends StatefulWidget {
   @override
@@ -136,13 +134,18 @@ class _EventAddScreenState extends State<EventAddScreen> {
                               size: 24),
                             Container(
                               padding: const EdgeInsets.only(left: 28),
-                              child: const Text(
-                                'Выбрать место встречи',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(94, 98, 102, 1),
-                                    fontSize: 16
-                                ),
-                                  ),
+                              child: Consumer<AddEventModel>(
+                                builder: (context, value, child){
+                                  location = value.location;
+                                  return Text(
+                                    value.location,
+                                    style: const TextStyle(
+                                        color: Color.fromRGBO(94, 98, 102, 1),
+                                        fontSize: 16
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         )
@@ -257,11 +260,8 @@ class _EventAddScreenState extends State<EventAddScreen> {
     showDialog(
         context: context,
         builder: (context){
-          return Consumer<AddEventModel>(
-            builder: (context, model, child){
-              String location = model.location.toString();
               return AlertDialog(
-                title: Text(location),
+                title: const Text('Выбрать место встречи'),
                 contentPadding: EdgeInsets.only(top: 16, left: 24, right: 24),
                 content: SizedBox(
                     height: 360,
@@ -274,8 +274,7 @@ class _EventAddScreenState extends State<EventAddScreen> {
                       child: Text('Подтвердить'))
                 ],
               );
-            },
-          );
+
         },
     );
   }

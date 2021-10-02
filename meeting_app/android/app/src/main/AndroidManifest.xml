@@ -3,6 +3,8 @@
    <application
         android:label="meeting_app"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.here.sdk.access_key_id" android:value="gMIfp_MZIcS0KjbaobbVqQ"/>
+       <meta-data android:name="com.here.sdk.access_key_secret" android:value="q40RhVpHhPy69ASt2cK14aDGaHIk8S6HjCWQOl2J7gt_SIli3veeXiu8IXvshEukQQfpYeBOe2OP07DuGwT-qw"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -40,5 +42,6 @@
         <meta-data android:name = "com.google.android.geo.API_KEY"
             android:value="AIzaSyD4HeEGDDGBismjzrzZgn0dDYcNFGW2d6Q">
         </meta-data>
+
     </application>
 </manifest>
